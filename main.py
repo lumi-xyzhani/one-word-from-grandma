@@ -31,7 +31,14 @@ def validate_word(word):
         return "error: word must be exactly one word, got {}".format(
             len(words)
         )
+    if not all("a" <= ch <= "z" for ch in word):
+        return "error: word must be all lowercase ASCII letters a-z"
     return None
+
+
+def output_dir():
+    """Return the output directory from MAKEFUN_OUTPUT_DIR or /output."""
+    return os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
 
 
 def write_word(word, output_dir):
@@ -48,8 +55,7 @@ def main():
         print(error, file=sys.stderr)
         return 1
 
-    output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
-    write_word(WORD, output_dir)
+    write_word(WORD, output_dir())
     return 0
 
 
